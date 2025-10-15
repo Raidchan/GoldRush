@@ -26,6 +26,29 @@ public class GoldRushCommand implements CommandExecutor {
 		plugin.getCommand("goldrush").setExecutor(this);
 	}
 
+	/*
+		必要なコマンド実装
+		/goldrush npc menu <type> <player>
+		  - smelt: 精製所
+		  - sell <取引所名>: 各取引所
+		  - check: 鑑定所
+		  - blackmarket_buy: 闇商人（購入）
+		  - blackmarket_sell: 闇商人（売却）
+		
+		/goldrush npc confiscate <player>
+		  - 警備兵が違法アイテムを没収
+		
+		/goldrush npc rob <player>
+		  - 盗賊が所持金と金を奪う
+		  
+		/goldrush area teleport <area> <playe>
+		  - ConfigLoc.ymlに座標を保存
+				areas:
+				  town_tunnel: {world: world, x: 100, y: 64, z: 200}
+				  blackmarket_wagon: {world: world, x: 500, y: 70, z: -300}
+				  
+		  - NPCの会話で実行 /goldrush area teleport blackmarket_wagon <player>
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String arg0, String[] args) {
 		if (!(sender instanceof Player)) return true;
