@@ -1,0 +1,18 @@
+name: GoldRush
+author: raiid_dev
+version: 1.0.0
+description: Goldrush for Spigot.
+main: net.raiid.goldrush.Main
+api-version: 1.21
+
+commands:
+  goldrush:
+    permission: goldrush.op
+  customblock:
+    permission: customblock.op
+
+permissions:
+  goldrush.op:
+    default: op
+  customblock.op:
+    default: op
