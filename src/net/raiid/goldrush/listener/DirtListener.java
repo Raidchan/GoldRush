@@ -33,7 +33,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.raiid.goldrush.DirtBundle;
 import net.raiid.goldrush.GoldRushItem;
 import net.raiid.goldrush.Main;
-import net.raiid.util.ValueUtil;
 
 public class DirtListener implements Listener {
 
@@ -133,10 +132,10 @@ public class DirtListener implements Listener {
 	        return;
 	    }
 	    int clicks = this.panningPlayers.remove(player);
-	    double impurityRate = ValueUtil.round(this.calculateImpurityRate(clicks), 2);
+	    double impurityRate = this.calculateImpurityRate(clicks);
 		ItemStack bundle = player.getInventory().getItemInOffHand();
-	    double goldWeight = ValueUtil.round(DirtBundle.getGoldWeight(bundle), 2);
-	    double impurities = ValueUtil.round(goldWeight * (impurityRate / (1.0 - impurityRate)), 2);
+	    double goldWeight = DirtBundle.getGoldWeight(bundle);
+	    double impurities = goldWeight * (impurityRate / (1.0 - impurityRate));
 	    ItemStack result = GoldRushItem.INGOT_1;
 	    GoldRushItem.setGold(result, goldWeight, impurities, false, false);
     	player.getWorld().dropItem(player.getLocation(), result);

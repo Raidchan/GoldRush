@@ -21,7 +21,6 @@ import org.bukkit.scheduler.BukkitTask;
 import net.raiid.goldrush.Main;
 import net.raiid.goldrush.PlayerDataManager;
 import net.raiid.util.SidebarUtil;
-import net.raiid.util.ValueUtil;
 
 public class Sidebar implements Listener, CommandExecutor {
 
@@ -70,7 +69,7 @@ public class Sidebar implements Listener, CommandExecutor {
                         "",
                         "&fOnlines: &e" + Bukkit.getOnlinePlayers().size(),
                         "",
-                        "&fMoney: &e$" + ValueUtil.round(PlayerDataManager.all_data.get(player).getMoney(), 2),
+                        "&fMoney: &e$" + String.format("%.2f", PlayerDataManager.getMoney(player)),
                         "",
                         "&ekusosaba.net"
                 ));

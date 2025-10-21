@@ -28,7 +28,6 @@ import org.bukkit.scheduler.BukkitTask;
 import net.raiid.goldrush.GoldRushItem;
 import net.raiid.util.Item;
 import net.raiid.util.TextUtil;
-import net.raiid.util.ValueUtil;
 
 public class SmeltMenu implements Listener {
 
@@ -181,7 +180,7 @@ public class SmeltMenu implements Listener {
 							else if (heavy >= 250.0) result = GoldRushItem.INGOT_3;
 							else if (heavy >= 100.0) result = GoldRushItem.INGOT_2;
 							
-							currentInv.setResult(GoldRushItem.setGold(result, ValueUtil.round(weight, 2), ValueUtil.round(impurities, 2), false, false));
+							currentInv.setResult(GoldRushItem.setGold(result, weight, impurities, false, false));
 							
 							player.getOpenInventory().setProperty(InventoryView.Property.BURN_TIME, 0);
 							player.getOpenInventory().setProperty(InventoryView.Property.COOK_TIME, 0);

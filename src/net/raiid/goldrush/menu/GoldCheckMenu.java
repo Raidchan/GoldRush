@@ -17,7 +17,6 @@ import net.raiid.goldrush.GoldRushItem;
 import net.raiid.goldrush.PlayerDataManager;
 import net.raiid.util.Item;
 import net.raiid.util.TextUtil;
-import net.raiid.util.ValueUtil;
 
 public class GoldCheckMenu implements Listener {
 
@@ -72,7 +71,7 @@ public class GoldCheckMenu implements Listener {
 						}
 						player.sendMessage(TextUtil.color("&a&lアイテムの鑑定に $" + CHECK_PRICE + " を支払いました。"));
 				    	double weight = goldWeight + GoldRushItem.getImpurities(check);
-				    	double purity = ValueUtil.round(goldWeight / weight * 100, 2);
+				    	double purity = goldWeight / weight;
 			    		info = Item.create(Material.ENCHANTED_BOOK).name(TextUtil.color("&6&l鑑定結果")).lore(TextUtil.color("&e純金の配合率: &n" + purity + "%")).getItemStack();
 						player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 1.0f);
 		                player.sendMessage(TextUtil.color("&6&l━━━━━━━━━━━━━━━━━━━━"));

@@ -14,7 +14,6 @@ import org.bukkit.persistence.PersistentDataType;
 
 import net.raiid.util.Item;
 import net.raiid.util.TextUtil;
-import net.raiid.util.ValueUtil;
 
 public class GoldRushItem {
 
@@ -137,8 +136,6 @@ public class GoldRushItem {
 	}
 
 	public static ItemStack setGold(ItemStack item, double goldWeight, double impuritiesWeight, boolean verified, boolean isIllegal) {
-		goldWeight = ValueUtil.round(goldWeight, 2);
-		impuritiesWeight = ValueUtil.round(impuritiesWeight, 2);
 		boolean isGoldPurityVerified = false;
 		if (verified)
 			isGoldPurityVerified = checkPure(goldWeight, impuritiesWeight);
@@ -153,7 +150,7 @@ public class GoldRushItem {
         List<String> lore = new ArrayList<>();
         lore.add(loreOld.size() > 0 ? loreOld.get(0) : " ");
         lore.add(" ");
-        lore.add("§e重さ: " + ValueUtil.round((goldWeight + impuritiesWeight), 2) + "g");
+        lore.add("§e重さ: " + String.format("%.2f", (goldWeight + impuritiesWeight)) + "g");
         if (isIllegal) {
 			lore.add("§c禁制品");
         	for (int i = 0; i < lore.size(); i++) {

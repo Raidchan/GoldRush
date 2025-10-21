@@ -14,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlayerDataManager implements Listener {
 
-	public static Map<Player, PlayerData> all_data = new HashMap<>();
+	private static Map<Player, PlayerData> all_data = new HashMap<>();
 
 	public PlayerDataManager(JavaPlugin plugin) {
 		Bukkit.getPluginManager().registerEvents(this, plugin);

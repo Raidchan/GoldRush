@@ -135,7 +135,6 @@ public class ShopConfirmMenu implements Listener {
             player.sendMessage(TextUtil.color("&a&l購入が完了しました！"));
             player.sendMessage(TextUtil.color("&7商品: &e" + purchasedItem.getItemMeta().getDisplayName()));
             player.sendMessage(TextUtil.color("&7支払額: &c-$" + String.format("%.2f", stock.getPrice())));
-            player.sendMessage(TextUtil.color("&7残高: &e$" + String.format("%.2f", PlayerDataManager.getMoney(player))));
             player.sendMessage(TextUtil.color("&a&l━━━━━━━━━━━━━━━━━━━━"));
             
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.2f);

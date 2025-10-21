@@ -73,7 +73,6 @@ public class GoldSellMenu implements Listener {
 	    player.sendMessage(TextUtil.color("&7店舗: &e" + shoptype.getName()));
 	    player.sendMessage(TextUtil.color("&7金の重量: &e" + String.format("%.2f", weight) + "g"));
 	    player.sendMessage(TextUtil.color("&7受取額: &a+$" + String.format("%.2f", price)));
-	    player.sendMessage(TextUtil.color("&7残高: &e$" + String.format("%.2f", PlayerDataManager.getMoney(player))));
 	    player.sendMessage(TextUtil.color("&6&l━━━━━━━━━━━━━━━━━━━━"));
 	}
 
