@@ -13,15 +13,20 @@ import net.raiid.goldrush.menu.PureGoldSellMenu;
 import net.raiid.goldrush.menu.ShopConfirmMenu;
 import net.raiid.goldrush.menu.ShopMenu;
 import net.raiid.goldrush.menu.SmeltMenu;
+import net.raiid.goldrush.shop.ShopInventoryManager;
 
 public class Main extends JavaPlugin {
 
 	public static Main instance;
 
 	private GoldRushCore core;
+	private ShopInventoryManager shopManager;
 
 	public GoldRushCore getGoldRushCore() {
 		return this.core;
+	}
+	public ShopInventoryManager getShopManager() {
+		return this.shopManager;
 	}
 
 	@Override
@@ -29,6 +34,7 @@ public class Main extends JavaPlugin {
 		instance = this;
 
 		this.core = new GoldRushCore(this);
+		this.shopManager = new ShopInventoryManager(this);
 
 		new GoldRushCommand(this);
 		new DirtListener(this);
@@ -49,6 +55,9 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		PlayerDataManager.save();
+		if (this.shopManager != null) {// Shop在庫保存
+			this.shopManager.unload();
+		}
 	}
 
 }

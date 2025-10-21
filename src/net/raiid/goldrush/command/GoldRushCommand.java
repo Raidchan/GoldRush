@@ -1,86 +1,83 @@
 package net.raiid.goldrush.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import net.raiid.goldrush.DirtBundle;
+import net.raiid.goldrush.GoldRushCore.TradingPostType;
 import net.raiid.goldrush.GoldRushItem;
 import net.raiid.goldrush.Main;
 import net.raiid.goldrush.PlayerDataManager;
 import net.raiid.goldrush.menu.GoldCheckMenu;
 import net.raiid.goldrush.menu.GoldSellMenu;
-import net.raiid.goldrush.menu.ShopConfirmMenu;
 import net.raiid.goldrush.menu.ShopMenu;
 import net.raiid.goldrush.menu.SmeltMenu;
 import net.raiid.util.TextUtil;
 
-public class GoldRushCommand implements CommandExecutor {
+public class GoldRushCommand implements CommandExecutor, TabCompleter {
 
 	public GoldRushCommand(Main plugin) {
 		plugin.getCommand("goldrush").setExecutor(this);
+		plugin.getCommand("goldrush").setTabCompleter(this);
 	}
 
-	/*
-		必要なコマンド実装
-		/goldrush npc menu <type> <player>
-		  - smelt: 精製所
-		  - sell <取引所名>: 各取引所
-		  - check: 鑑定所
-		  - blackmarket_buy: 闇商人（購入）
-		  - blackmarket_sell: 闇商人（売却）
-		
-		/goldrush npc confiscate <player>
-		  - 警備兵が違法アイテムを没収
-		
-		/goldrush npc rob <player>
-		  - 盗賊が所持金と金を奪う
-		  
-		/goldrush area teleport <area> <playe>
-		  - ConfigLoc.ymlに座標を保存
-				areas:
-				  town_tunnel: {world: world, x: 100, y: 64, z: 200}
-				  blackmarket_wagon: {world: world, x: 500, y: 70, z: -300}
-				  
-		  - NPCの会話で実行 /goldrush area teleport blackmarket_wagon <player>
-	 */
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String arg0, String[] args) {
-		if (!(sender instanceof Player)) return true;
-		Player player = (Player)sender;
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+
 		if (args.length > 0) {
-			if (args[0].equals("money")) {
+			if (args[0].equalsIgnoreCase("money")) {
 				if (args.length > 2) {
 					Player target = Bukkit.getPlayer(args[2]);
 					if (target == null) return true;
 					try {
 						double value = Double.parseDouble(args[1]);
 						PlayerDataManager.addMoney(target, value);
-						player.sendMessage(TextUtil.color("&a" + target.getName() + " に &e$" + value + "&a を追加しました"));
+						sender.sendMessage(TextUtil.color("&a" + target.getName() + " に &e$" + value + "&a を追加しました"));
 					} catch (NumberFormatException ex) {}
 				}
-			} else if (args[0].equals("menu")) {
+			} else if (args[0].equalsIgnoreCase("menu")) {
 				if (args.length > 2) {
 					Player target = Bukkit.getPlayer(args[2]);
-					if (target == null) return true;
-					if (args[1].equals("smelt")) {
+					if (target == null) {
+						sender.sendMessage(TextUtil.color("&cプレイヤーが見つかりません: " + args[2]));
+						return true;
+					}
+					
+					if (args[1].equalsIgnoreCase("smelt")) {
 						SmeltMenu.openMenu(target);
-					} else if (args[1].equals("sell")) {
-						GoldSellMenu.openMenu(target, "商人ギルド");
-					} else if (args[1].equals("shop")) {
-						ShopMenu.openMenu(target);
-					} else if (args[1].equals("sellconfirm")) {
-						ShopConfirmMenu.openMenu(target, new ItemStack(Material.APPLE));
-					} else if (args[1].equals("check")) {
+					} else if (args[1].equalsIgnoreCase("sell")) {
+						// 売却メニュー
+						if (args.length > 3) {
+							// /goldrush menu sell <取引所名> <player>
+							GoldSellMenu.openMenu(target, args[3]);
+						} else {
+							GoldSellMenu.openMenu(target, "商人ギルド");
+						}
+					} else if (args[1].equalsIgnoreCase("shop")) {
+						// 購入メニュー
+						if (args.length > 3) {
+							// /goldrush menu shop <取引所名> <player>
+							ShopMenu.openMenu(target, args[3]);
+						} else {
+							ShopMenu.openMenu(target, "商人ギルド");
+						}
+					} else if (args[1].equalsIgnoreCase("check")) {
 						GoldCheckMenu.openMenu(target);
 					}
 				}
-			} else if (args[0].equals("item")) {
+			} else if (args[0].equalsIgnoreCase("item")) {
+				if (!(sender instanceof Player)) return true;
+				Player player = (Player)sender;
 				Inventory inv = Bukkit.createInventory(null, 54, "GoldRush Debug");
 				inv.addItem(DirtBundle.createDirtBundle(500));
 				ItemStack bundle = DirtBundle.createDirtBundle(500);
@@ -115,7 +112,50 @@ public class GoldRushCommand implements CommandExecutor {
 				player.openInventory(inv);
 			}
 		}
-		return false;
+		return true;
 	}
 
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+		List<String> completions = new ArrayList<>();
+		
+		if (args.length == 1) {
+			// 第1引数: サブコマンド
+			completions.addAll(Arrays.asList("money", "menu", "item"));
+		} else if (args.length == 2) {
+			if (args[0].equalsIgnoreCase("menu")) {
+				// /goldrush menu <type>
+				completions.addAll(Arrays.asList("smelt", "sell", "shop", "check"));
+			} else if (args[0].equalsIgnoreCase("money")) {
+				// /goldrush money <amount>
+				completions.addAll(Arrays.asList("100", "500", "1000"));
+			}
+		} else if (args.length == 3) {
+			if (args[0].equalsIgnoreCase("menu") || args[0].equalsIgnoreCase("money")) {
+				// プレイヤー名
+				for (Player p : Bukkit.getOnlinePlayers()) {
+					completions.add(p.getName());
+				}
+			}
+		} else if (args.length == 4) {
+			if (args[0].equalsIgnoreCase("menu") && 
+			    (args[1].equalsIgnoreCase("shop") || args[1].equalsIgnoreCase("sell"))) {
+				// /goldrush menu shop/sell <player> <取引所名>
+				for (TradingPostType type : TradingPostType.values()) {
+					completions.add(type.getName());
+				}
+			}
+		}
+		
+		// 入力に応じてフィルタリング
+		List<String> filtered = new ArrayList<>();
+		String input = args[args.length - 1].toLowerCase();
+		for (String completion : completions) {
+			if (completion.toLowerCase().startsWith(input)) {
+				filtered.add(completion);
+			}
+		}
+		
+		return filtered;
+	}
 }
