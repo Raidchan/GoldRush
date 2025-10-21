@@ -72,11 +72,18 @@ public class GoldCheckMenu implements Listener {
 						}
 						player.sendMessage(TextUtil.color("&a&lアイテムの鑑定に $" + CHECK_PRICE + " を支払いました。"));
 				    	double weight = goldWeight + GoldRushItem.getImpurities(check);
-				    	double purlty = ValueUtil.round(goldWeight / weight * 100, 2);
-			    		info = Item.create(Material.ENCHANTED_BOOK).name(TextUtil.color("&6&l鑑定結果")).lore(TextUtil.color("&e純金の配合率: &n" + purlty + "%")).getItemStack();
+				    	double purity = ValueUtil.round(goldWeight / weight * 100, 2);
+			    		info = Item.create(Material.ENCHANTED_BOOK).name(TextUtil.color("&6&l鑑定結果")).lore(TextUtil.color("&e純金の配合率: &n" + purity + "%")).getItemStack();
 						player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 1.0f);
-						player.sendMessage(TextUtil.color("&6&l鑑定結果："));
-						player.sendMessage(TextUtil.color("&e純金の配合率: &n" + purlty + "%"));
+		                player.sendMessage(TextUtil.color("&6&l━━━━━━━━━━━━━━━━━━━━"));
+		                player.sendMessage(TextUtil.color("&6&l鑑定が完了しました！"));
+		                player.sendMessage(TextUtil.color("&7鑑定料: &c-$" + CHECK_PRICE));
+		                player.sendMessage(TextUtil.color("&7純金の配合率: &e" + purity + "%"));
+		                if (purity >= 95.0) {
+		                    player.sendMessage(TextUtil.color("&d&l✦ 純金認定 ✦"));
+		                }
+		                player.sendMessage(TextUtil.color("&7残高: &e$" + String.format("%.2f", PlayerDataManager.getMoney(player))));
+		                player.sendMessage(TextUtil.color("&6&l━━━━━━━━━━━━━━━━━━━━"));
 					}
 		    	} else {
 		    		info = Item.create(Material.WRITABLE_BOOK).name(TextUtil.color("&6&l鑑定結果")).lore(TextUtil.color("&7クリックして左のアイテムの鑑定結果を表示"), TextUtil.color("&b&n鑑定料: $" + CHECK_PRICE), TextUtil.color("&c&lこのアイテムは鑑定対象ではありません！")).getItemStack();

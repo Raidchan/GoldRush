@@ -89,8 +89,7 @@ public class ShopConfirmMenu implements Listener {
         // 在庫存在チェック
         if (!ShopInventoryManager.getInstance().stockExists(stockId)) {
             player.closeInventory();
-            player.sendMessage(TextUtil.color("&c&l申し訳ございません。"));
-            player.sendMessage(TextUtil.color("&c&lこちらの商品は既に売り切れました。"));
+            player.sendMessage(TextUtil.color("&c&l申し訳ございません、こちらの商品は既に売り切れました。"));
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
             confirming.remove(player);
             return;
@@ -145,8 +144,7 @@ public class ShopConfirmMenu implements Listener {
         } else {
             // 購入失敗（同時購入で負けた）
             player.closeInventory();
-            player.sendMessage(TextUtil.color("&c&l申し訳ございません。"));
-            player.sendMessage(TextUtil.color("&c&l他のお客様が先に購入されました。"));
+            player.sendMessage(TextUtil.color("&c&l申し訳ございません、他のお客様が先に購入されました。"));
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
         }
         

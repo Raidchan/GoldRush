@@ -453,7 +453,7 @@ public class GoldRushCore {
             return null;
         }
         
-        int purity = calculatePurityPercent(totalWeight, pureGoldWeight);
+        //int purity = calculatePurityPercent(totalWeight, pureGoldWeight);
         
         switch (postType) {
             case OFFICIAL:

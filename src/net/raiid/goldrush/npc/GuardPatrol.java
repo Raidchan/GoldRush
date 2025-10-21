@@ -6,8 +6,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.raiid.goldrush.GoldRushItem;
-import net.raiid.goldrush.PlayerDataManager;
-import net.raiid.goldrush.PlayerReputation;
 
 public class GuardPatrol {
 	// 昼: 5-7人、夜: 2-3人

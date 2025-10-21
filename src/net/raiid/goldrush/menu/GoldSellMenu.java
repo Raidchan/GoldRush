@@ -1,8 +1,5 @@
 package net.raiid.goldrush.menu;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -71,8 +68,13 @@ public class GoldSellMenu implements Listener {
 	    if (price <= 0) return;
 	    PlayerDataManager.addMoney(player, price);
 	    player.closeInventory();
-	    player.sendMessage(TextUtil.color("&a&l" + shoptype.getName() + "に &6&l" + weight + "g の金を売却しました"));
-	    player.sendMessage(TextUtil.color("&6&l +$" + (Math.floor(price * 100) / 100)));
+	    player.sendMessage(TextUtil.color("&6&l━━━━━━━━━━━━━━━━━━━━"));
+	    player.sendMessage(TextUtil.color("&6&l売却が完了しました！"));
+	    player.sendMessage(TextUtil.color("&7店舗: &e" + shoptype.getName()));
+	    player.sendMessage(TextUtil.color("&7金の重量: &e" + String.format("%.2f", weight) + "g"));
+	    player.sendMessage(TextUtil.color("&7受取額: &a+$" + String.format("%.2f", price)));
+	    player.sendMessage(TextUtil.color("&7残高: &e$" + String.format("%.2f", PlayerDataManager.getMoney(player))));
+	    player.sendMessage(TextUtil.color("&6&l━━━━━━━━━━━━━━━━━━━━"));
 	}
 
 	@EventHandler

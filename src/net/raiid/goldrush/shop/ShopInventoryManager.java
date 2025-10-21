@@ -274,7 +274,8 @@ public class ShopInventoryManager {
     /**
      * 純金在庫生成
      */
-    private ShopStock generatePureGoldStock(TradingPostType shopType, GoldRushCore core) {
+    @SuppressWarnings("unused")
+	private ShopStock generatePureGoldStock(TradingPostType shopType, GoldRushCore core) {
         double weight = 50 + Math.random() * 200; // 50-250g
         GoldType type = randomGoldType(false);
         
@@ -286,23 +287,7 @@ public class ShopInventoryManager {
         
         return stock;
     }
-    
-    /**
-     * 高品質金塊生成（旧実装、現在未使用）
-     */
-    private ShopStock generateHighQualityGoldStock(TradingPostType shopType, GoldRushCore core) {
-        double weight = 100 + Math.random() * 400; // 100-500g
-        GoldType type = randomGoldType(false);
         
-        ItemStack item = createGoldItem(type, weight, 0.0, false);
-        double price = core.getSellPrice(shopType, type) * weight;
-        
-        ShopStock stock = new ShopStock(shopType, item, price);
-        allStocks.get(shopType).add(stock);
-        
-        return stock;
-    }
-    
     /**
      * 装飾品生成
      */
@@ -317,26 +302,7 @@ public class ShopInventoryManager {
         
         return stock;
     }
-    
-    /**
-     * 違法金塊生成（旧実装、現在未使用）
-     */
-    private ShopStock generateIllegalGoldStock(TradingPostType shopType, GoldRushCore core) {
-        double pureWeight = 50 + Math.random() * 300; // 50-350g
-        double purity = 0.5 + Math.random() * 0.4; // 50-90%
-        double totalWeight = pureWeight / purity;
-        double impurities = totalWeight - pureWeight;
-        GoldType type = randomGoldType(false);
-        
-        ItemStack item = createGoldItem(type, pureWeight, impurities, true);
-        double price = core.getSellPrice(shopType, type) * totalWeight * 0.7; // 30%割引
-        
-        ShopStock stock = new ShopStock(shopType, item, price);
-        allStocks.get(shopType).add(stock);
-        
-        return stock;
-    }
-    
+
     /**
      * 怪しい金塊生成
      */
